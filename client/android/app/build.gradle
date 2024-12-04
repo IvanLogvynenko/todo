@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ivanlogvynenko.todo"
+    namespace = "com.ivanlogvynenko.client"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,8 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.ivanlogvynenko.todo"
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId = "com.ivanlogvynenko.client"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -28,18 +29,12 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-    signingConfigs {
-        release {
-            storeFile file('/home/ivan/my-release-key.jks') // Path to your keystore
-            storePassword '211304'
-            keyAlias 'my-key-alias'
-            keyPassword '211304'
-        }
-    }
+
     buildTypes {
         release {
+            // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.release
+            signingConfig = signingConfigs.debug
         }
     }
 }
