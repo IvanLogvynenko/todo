@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/pages/home.dart';
-import 'package:todo/providers/task_provider.dart';
+import 'package:todo/task/provider/task_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         ),
-        home: const Home(),
+        home: Home(),
       ),
     );
   }
