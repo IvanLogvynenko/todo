@@ -1,4 +1,4 @@
-package com.ivanlogvynenko.client;
+package com.ivanlogvynenko.todo;
 
 import io.flutter.embedding.android.FlutterActivity;
 

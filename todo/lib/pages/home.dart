@@ -14,19 +14,29 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text('Task App'),
       ),
+      backgroundColor: Color.fromARGB(255, 216, 231, 245),
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
               child: taskProvider.tasks.isEmpty
                   ? Center(
-                      child: Text('You did that!!!'),
+                      child: Text(
+                          'Every day I`m getting closer\nTo taking a bath with a fucking toaster'),
                     )
                   : ListView.builder(
                       itemCount: taskProvider.tasks.length,
                       itemBuilder: (context, index) {
-                        return TaskView(
-                            task: taskProvider.tasks.values.elementAt(index));
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 7.5,
+                            left: 1.5,
+                            right: 1.5,
+                          ),
+                          child: TaskView(
+                            task: taskProvider.tasks.values.elementAt(index),
+                          ),
+                        );
                       },
                     ),
             ),
