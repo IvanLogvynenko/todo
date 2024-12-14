@@ -12,6 +12,7 @@ class TitleView extends StatelessWidget {
       children: [
         Text(
           _task.title,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -20,6 +21,7 @@ class TitleView extends StatelessWidget {
         Padding(padding: EdgeInsets.all(4)),
         Text(
           _task.description,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
             color: Color.fromRGBO(0x48, 0x48, 0x48, 1.0),
