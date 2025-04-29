@@ -1,0 +1,2 @@
+/home/ivan/Dev/Projects/todo/todo/android/app/.cxx/Debug/xd24524y/x86_64/CMakeFiles/edit_cache.dir
+/home/ivan/Dev/Projects/todo/todo/android/app/.cxx/Debug/xd24524y/x86_64/CMakeFiles/rebuild_cache.dir

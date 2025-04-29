@@ -1,0 +1,1 @@
+/home/ivan/Dev/Projects/todo/todo/build/app/intermediates/cxx/Debug/xd24524y/obj/armeabi-v7a

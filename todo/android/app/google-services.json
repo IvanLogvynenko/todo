@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "501386543217",
+    "firebase_url": "https://todo-c6cdf-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "todo-c6cdf",
+    "storage_bucket": "todo-c6cdf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501386543217:android:7313482e6eef6bf5a39bd0",
+        "android_client_info": {
+          "package_name": "com.ivanlogvynenko.todo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt509L-84y3ABA1OxlpZVZVklggpijL0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
