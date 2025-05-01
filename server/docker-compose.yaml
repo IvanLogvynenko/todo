@@ -1,0 +1,12 @@
+services:
+    db:
+        container_name: db
+        build:
+            context: ./DB
+        image: db
+        networks:
+            - todo-network
+        restart: no
+networks:
+    todo-network:
+        name: todo-network # Forces a specific name (avoids project-prefixed names)

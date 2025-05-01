@@ -1,0 +1,26 @@
+# Git и редактор
+.git
+.gitignore
+.vscode
+.idea
+
+# Бинарники
+main
+*.exe
+*.out
+
+# Временные файлы
+*.log
+*.tmp
+*.swp
+
+# Конфиги и чувствительные данные
+.env
+*.pem
+
+# Каталоги, которые не нужны
+build/
+vendor/
+docs/
+tests/
+
