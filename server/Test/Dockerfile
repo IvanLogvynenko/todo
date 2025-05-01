@@ -2,9 +2,12 @@ FROM golang:latest
 
 WORKDIR /app
 
-COPY ./go.mod main.go structs/* /app/
+COPY . .
 
+RUN go mod download
 RUN go build -o main .
 
-RUN main
+EXPOSE 8080
+
+CMD [ "./main" ]
 
