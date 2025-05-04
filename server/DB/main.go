@@ -4,38 +4,23 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/IvanLogvynenko/todo/server/DB/dataTypes/db"
+	"github.com/IvanLogvynenko/todo/server/DB/handlers"
 )
 
-type DBRequest struct {
-	Request string `json:"request"`
-}
-
 func main() {
-	var db map[string]any = map[string]any{
-		"name":             "Ivan",
-		"age":              20,
-		"IsDeepSeekBetterThanGPT": true,
-	}
+	dataBase := db.NewDataBase("/home/ivan/Dev/Projects/todo/server/DB/data.json")
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodPost {
-			var db_request DBRequest
-			if err := json.NewDecoder(r.Body).Decode(&db_request); err != nil {
-				log.Println("Error in request: ", err)
-				w.WriteHeader(http.StatusBadGateway)
-				json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
-			}
-			result, err := json.Marshal(map[string]any{"result": db[db_request.Request]})
-			if err != nil {
-				log.Println("Error in request: ", err)
-				w.WriteHeader(http.StatusBadGateway)
-				json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
-			}
-			w.WriteHeader(http.StatusOK)
-			w.Write(result)
-		} else {
+		w.Header().Set("Content-Type", "application/json")
+		switch r.Method {
+		case http.MethodPost:
+			handlers.GetHandler(w, r, &dataBase)
+		default:
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Unsupported request"})
 		}
 	})
+	log.Println("Hosting server on :8080")
 	http.ListenAndServe(":8080", nil)
 }
