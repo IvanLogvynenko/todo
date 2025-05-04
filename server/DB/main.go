@@ -14,7 +14,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		switch r.Method {
-		case http.MethodPost:
+		case http.MethodGet:
 			handlers.GetHandler(w, r, &dataBase)
 		default:
 			w.WriteHeader(http.StatusBadRequest)
