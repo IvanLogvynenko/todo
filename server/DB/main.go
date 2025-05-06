@@ -18,6 +18,8 @@ func main() {
 			handlers.GetHandler(w, r, &dataBase)
 		case http.MethodPost:
 			handlers.PostHandler(w, r, &dataBase)
+		case http.MethodDelete:
+			handlers.DeleteHandler(w, r, &dataBase)
 		default:
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Unsupported request"})

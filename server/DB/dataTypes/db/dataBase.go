@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"log"
+	"maps"
 	"os"
 	"strings"
-	"maps"
 )
 
 type DataBase struct {
@@ -20,7 +20,7 @@ func NewDataBase(file_path string) DataBase {
 	}
 	db_data := make(map[string]any)
 	if _, err := os.Stat(file_path); err == nil {
-		// INFO: Loading data from the file 
+		// INFO: Loading data from the file
 		data, err := os.ReadFile(file_path)
 		if err != nil {
 			log.Println("Error while loading db: ", err.Error())
@@ -64,7 +64,20 @@ func (db *DataBase) Set(path string, values map[string]any) error {
 	return nil
 }
 
-func (db DataBase) Delete(path string) error {
+func (db *DataBase) Delete(path string) error {
+	tmp_layer := db.data
+	steps := strings.Split(path, "/")
+	for i, step := range steps {
+		if i == len(steps)-1 {
+			delete(tmp_layer, step)
+			return nil
+		}
+		tmp, ok := tmp_layer[step].(map[string]any)
+		if !ok {
+			return errors.New("Path is not resolvable")
+		}
+		tmp_layer = tmp
+	}
 	return nil
 }
 
