@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"maps"
 )
 
 type DataBase struct {
@@ -47,8 +48,18 @@ func (db DataBase) Get(path string) (any, error) {
 	return tmp_result[steps[len(steps)-1]], nil
 }
 
-func (db DataBase) Set(path string, value string) {
-
+func (db DataBase) Set(path string, values map[string]any) error {
+	steps := strings.Split(path, "/")
+	tmp_layer := db.data
+	for _, step := range steps {
+		tmp, ok := tmp_layer[step].(map[string]any)
+		if !ok {
+			return errors.New("Path is not resolvable")
+		}
+		tmp_layer = tmp
+	}
+	maps.Copy(tmp_layer, values)
+	return nil
 }
 
 func (db DataBase) Delete(path string) error {

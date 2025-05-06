@@ -16,6 +16,8 @@ func main() {
 		switch r.Method {
 		case http.MethodGet:
 			handlers.GetHandler(w, r, &dataBase)
+		case http.MethodPost:
+			handlers.PostHandler(w, r, &dataBase)
 		default:
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(map[string]string{"error": "Unsupported request"})
