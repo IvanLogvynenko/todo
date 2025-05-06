@@ -49,14 +49,16 @@ func (db DataBase) Get(path string) (any, error) {
 }
 
 func (db *DataBase) Set(path string, values map[string]any) error {
-	steps := strings.Split(path, "/")
 	tmp_layer := db.data
-	for _, step := range steps {
-		tmp, ok := tmp_layer[step].(map[string]any)
-		if !ok {
-			return errors.New("Path is not resolvable")
+	if path != "" {
+		steps := strings.Split(path, "/")
+		for _, step := range steps {
+			tmp, ok := tmp_layer[step].(map[string]any)
+			if !ok {
+				return errors.New("Path is not resolvable")
+			}
+			tmp_layer = tmp
 		}
-		tmp_layer = tmp
 	}
 	maps.Copy(tmp_layer, values)
 	return nil

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -26,14 +27,19 @@ func PostHandler(w http.ResponseWriter, r *http.Request, dataBase *db.DataBase) 
 		return
 	}
 	path := input["path"]
-	values_map, ok := values.(map[string]any)
-	if !ok {
+	fmt.Println(values)
+	var values_json map[string]any
+	if err := json.Unmarshal([]byte(values.(string)), &values_json); err != nil {
 		log.Println("Got corrupted values field!")
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(responces.NewError("Values field does not contain any KV"))
 		return
 	}
-	if err := dataBase.Set(path.(string), values_map); err != nil {
+	path_str, ok := path.(string)
+	if !ok || path == nil {
+		path_str = ""
+	}
+	if err := dataBase.Set(path_str, values_json); err != nil {
 		log.Println("Error while processing request: ", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err.Error())
