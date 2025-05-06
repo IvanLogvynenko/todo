@@ -48,7 +48,7 @@ func (db DataBase) Get(path string) (any, error) {
 	return tmp_result[steps[len(steps)-1]], nil
 }
 
-func (db DataBase) Set(path string, values map[string]any) error {
+func (db *DataBase) Set(path string, values map[string]any) error {
 	steps := strings.Split(path, "/")
 	tmp_layer := db.data
 	for _, step := range steps {
