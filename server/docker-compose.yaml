@@ -7,6 +7,8 @@ services:
         networks:
             - todo-network
         restart: no
+        volumes:
+            - ./data.json:./data.json
 networks:
     todo-network:
-        name: todo-network # Forces a specific name (avoids project-prefixed names)
+        name: todo-network

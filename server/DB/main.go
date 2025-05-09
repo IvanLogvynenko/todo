@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	dataBase := db.NewDataBase("/home/ivan/Dev/Projects/todo/server/DB/data.json")
+	dataBase := db.NewDataBase("./data.json")
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		switch r.Method {
