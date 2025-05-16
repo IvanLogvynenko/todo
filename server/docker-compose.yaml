@@ -1,14 +1,14 @@
 services:
-    db:
-        container_name: db
-        build:
-            context: ./DB
-        image: db
-        networks:
-            - todo-network
-        restart: no
-        volumes:
-            - ./data.json:./data.json
+  db:
+    container_name: db
+    build:
+      context: ./DB
+    image: db
+    networks:
+      - todo-network
+    restart: no
+    volumes:
+      - ./data/data.json:/app/data.json:rw
 networks:
-    todo-network:
-        name: todo-network
+  todo-network:
+    name: todo-network
