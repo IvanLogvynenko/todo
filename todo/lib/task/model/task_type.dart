@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonEnum()
 enum TaskType {
   lecture("Lecture", Color.fromRGBO(0xFF, 0xB2, 0xB2, 1)),
   exercise("Exercise", Color.fromRGBO(72, 255, 127, 1)),

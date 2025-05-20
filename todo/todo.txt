@@ -1,0 +1,3 @@
+- implement services usage in task_provider
+- implement new task creation service
+- implement task viewing/editing page with cool animation

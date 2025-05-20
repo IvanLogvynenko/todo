@@ -43,5 +43,16 @@ class Task {
   TaskType get taskType => _taskType;
   DateTime get dueDate => _dueDate;
   int get priority => _priority;
-}
 
+  @override
+  String toString() {
+    return """
+        Title: $_title
+        Description: $_description
+        Difficulty: ${_difficulty.level}
+        Type: ${_taskType.type}
+        Due: ${_dueDate.toIso8601String()}
+        Priority: $_priority
+    """;
+  }
+}

@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonEnum()
 enum Difficulty {
   easy("easy", Color.fromRGBO(72, 255, 127, 1)),
   medium("medium", Color.fromRGBO(255, 238, 90, 1)),
@@ -13,6 +16,6 @@ enum Difficulty {
 
   const Difficulty(this._level, this._color);
 
-  String get level => _level;
   Color get color => _color;
+  String get level => _level;
 }

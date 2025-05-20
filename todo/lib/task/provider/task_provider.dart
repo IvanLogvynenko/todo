@@ -1,81 +1,95 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:todo/task/model/difficulty.dart';
 import 'package:todo/task/model/task.dart';
-import 'package:todo/task/model/task_type.dart';
+import 'package:todo/task/services/server_storage_service.dart';
+import 'package:todo/task/services/shared_prefs_service.dart';
 
 // Loads tasks from the shared storage
 class TaskProvider extends ChangeNotifier {
-  final Map<int, Task> _tasks = HashMap<int, Task>();
+  final List<Task> _tasks = [];
+  final ServerStorageService _serverStorageService;
+  final SharedPrefsTaskService _prefsTaskService;
 
-  Map<int, Task> get tasks => UnmodifiableMapView(_tasks);
+  bool _disposable = true;
 
-  TaskProvider() {
-    addTask(Task(
-      title: "Machine Learning",
-      description: "dfghjkl",
-      difficulty: Difficulty.easy,
-      taskType: TaskType.exercise,
-    ));
-    addTask(Task(
-      title: "GBS",
-      description: "dfghjkl",
-      difficulty: Difficulty.medium,
-      taskType: TaskType.exercise,
-    ));
-    addTask(Task(
-      title: "GBS",
-      description: "dfghjkl",
-      difficulty: Difficulty.teamWork,
-      taskType: TaskType.exercise,
-    ));
-    addTask(Task(
-      title: "GBS",
-      description: "dfghjkl",
-      difficulty: Difficulty.easy,
-      taskType: TaskType.lecture,
-    ));
-    addTask(Task(
-      title: "Math Analisys",
-      description: "dfghjkl",
-      difficulty: Difficulty.hard,
-      taskType: TaskType.lecture,
-    ));
-    addTask(Task(
-      title: "Math Analisys",
-      description: "dfghjkl",
-      difficulty: Difficulty.extreme,
-      taskType: TaskType.exercise,
-    ));
-    addTask(Task(
-      title: "Find Eye Doctor",
-      description: "dfghjkl",
-      difficulty: Difficulty.easy,
-      taskType: TaskType.general,
-    ));
+  List<Task> get tasks => UnmodifiableListView(_tasks);
+
+  TaskProvider._(this._prefsTaskService, this._serverStorageService);
+
+  static Future<TaskProvider> create() async {
+    final prefsService = SharedPrefsTaskService();
+    final serverService = ServerStorageService();
+
+    final provider = TaskProvider._(prefsService, serverService);
+
+    final prefsId = await prefsService.getID();
+    final serverId = await serverService.getId();
+
+    final tasks = await prefsService.loadTasks();
+    provider.addTasks(tasks);
+    Task.ID = prefsId;
+
+    if (serverId > prefsId) {
+      var tasksServer = await serverService.loadTasks();
+      provider._tasks.clear();
+      provider.addTasks(tasksServer);
+      Task.ID = serverId;
+    }
+
+    return provider;
   }
 
-  void addTask(Task task) {
-    _tasks[task.id] = task;
+  Future<void> save() async {
+    await _prefsTaskService.saveId(Task.ID);
+    await _prefsTaskService.saveTasks(tasks);
+    await _serverStorageService.saveId(Task.ID);
+    await _serverStorageService.saveTasks(tasks);
+  }
+
+  @override
+  void dispose() {
+    _disposable = false;
+    save().then((value) {
+      _disposable = true;
+    });
+    while (!_disposable) {}
+    super.dispose();
+  }
+
+  addTask(Task task) {
+    _tasks.add(task);
+    _disposable = false;
+    save().then((value) {
+      _disposable = true;
+    });
     notifyListeners();
   }
 
-  // Method to remove a task
-  void removeTask(Task task) {
-    if (_tasks.remove(task.id) == null) {
+  void addTasks(List<Task> tasks) {
+    tasks.forEach(addTask);
+  }
+
+  removeTask(Task task) {
+    if (!_tasks.remove(task)) {
       throw Exception('I`m so mentally ill');
     }
+    _disposable = false;
+    save().then((value) {
+      _disposable = true;
+    });
     notifyListeners();
   }
 
-  // Method to update a task
   void updateTask(Task updatedTask) {
-    if (_tasks.containsKey(updatedTask.id)) {
-      _tasks[updatedTask.id] = updatedTask;
-      notifyListeners();
-    } else {
-      throw Exception('Task not found');
-    }
+    _tasks.removeWhere((task) {
+      return task.id == updatedTask.id;
+    });
+    _tasks.add(updatedTask);
+    _disposable = false;
+    save().then((value) {
+      _disposable = true;
+    });
+    notifyListeners();
   }
 }

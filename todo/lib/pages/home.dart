@@ -4,9 +4,14 @@ import 'package:todo/task/provider/task_provider.dart';
 // import 'package:todo/task/model/task.dart';
 import 'package:todo/task/view/task_view.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var taskProvider = Provider.of<TaskProvider>(context);
@@ -20,13 +25,28 @@ class Home extends StatelessWidget {
               : ListView.builder(
                   itemCount: taskProvider.tasks.length,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 7.5,
-                        horizontal: 5.0,
+                    final task = taskProvider.tasks.elementAt(index);
+                    return Dismissible(
+                      key: ValueKey(index),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        color: Colors.redAccent,
+                        child: const Icon(Icons.delete, color: Colors.white),
                       ),
-                      child: TaskView(
-                        task: taskProvider.tasks.values.elementAt(index),
+                      onDismissed: (value) {
+                        taskProvider.removeTask(task);
+                        setState(() {});
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 7.5,
+                          horizontal: 5.0,
+                        ),
+                        child: SizedBox(
+                            width: double.infinity,
+                            child: TaskView(task: task)),
                       ),
                     );
                   },
